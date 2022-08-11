@@ -1,39 +1,88 @@
 import Image from 'next/image'
-import { useFetchPokemonFromGeneration } from '../api/pokeapi'
+import { useState } from 'react'
+import { useFetchPokedexInfo, useFetchPokemonFromGeneration } from '../api/pokeapi'
 
 type PokemonListProps = {
   generation: number
 }
 
 function PokemonList(props: PokemonListProps) {
+  const [selectedPokemon, setSelectedPokemon] = useState(0)
+  const [enableQueryPokedex, setEnableQueryPokedex] = useState(false)
+  const [filter, setFilter] = useState('')
+
   const { status, data, error } = useFetchPokemonFromGeneration(props.generation)
+  const { status: statusPokedex, data: dataPokedex, error: errorPokedex } = useFetchPokedexInfo(selectedPokemon, enableQueryPokedex)
+
+  function handleClickOnPokemon(index: number) {
+    if (index == selectedPokemon) {
+      setSelectedPokemon(0)
+      setEnableQueryPokedex(false)
+    } else {
+      setSelectedPokemon(index)
+      setEnableQueryPokedex(true)
+    }
+  }
 
   return status === 'loading' ? (
-    <div>Loading</div>
+    <div className="text-center text-white">Loading...</div>
   ) : status === 'error' && error instanceof Error ? (
-    <div>Error : {error.message}</div>
+    <div className="text-center text-white">Error : {error.message}</div>
   ) : data ? (
     <div>
-      {data.pokemon_species
-        .sort((p1, p2) => {
-          let idP1 = parseInt(p1.url.slice(0, -1).split('/').pop()!)
-          let idP2 = parseInt(p2.url.slice(0, -1).split('/').pop()!)
-          return idP1 - idP2
-        })
-        .map((pokemon) => {
-          let idPokemon = pokemon.url.slice(0, -1).split('/').pop()
-          return (
-            <li key={idPokemon}>
-              #{idPokemon} {pokemon.name.toUpperCase()}
-              <Image
-                src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${idPokemon}.png`}
-                alt={`front sprite of ${pokemon.name}`}
-                width={100}
-                height={100}
-              />
-            </li>
-          )
-        })}
+      <input
+        type="text"
+        value={filter}
+        onChange={(e) => setFilter(e.target.value)}
+        placeholder="Filter POKEMONS by name"
+        className="block mx-auto mt-5 mb-1 p-2 pl-5 bg-slate-800 rounded w-96 text-white focus:outline-none"
+      />
+      <div className="flex flex-wrap justify-start">
+        {data.pokemon_species
+          .filter((pokemon) => pokemon.name.includes(filter.toLowerCase()))
+          .sort((p1, p2) => {
+            let idP1 = parseInt(p1.url.slice(0, -1).split('/').pop()!)
+            let idP2 = parseInt(p2.url.slice(0, -1).split('/').pop()!)
+            return idP1 - idP2
+          })
+          .map((pokemon) => {
+            let idPokemon = parseInt(pokemon.url.slice(0, -1).split('/').pop()!)
+            return (
+              <div
+                key={idPokemon}
+                onClick={() => handleClickOnPokemon(idPokemon)}
+                className={`flex ${
+                  idPokemon === selectedPokemon ? 'bg-slate-500' : 'bg-slate-600 hover:bg-slate-500'
+                } transition transition-width ease-out duration-300 m-4 p-2 rounded h-52`}
+              >
+                <div className="flex flex-col justify-between">
+                  <div className="text-white font-semibold text-center">
+                    #{idPokemon} {pokemon.name.toUpperCase()}
+                  </div>
+                  <Image
+                    src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${idPokemon}.png`}
+                    alt={`front sprite of ${pokemon.name}`}
+                    width="150"
+                    height="150"
+                  />
+                </div>
+                <div
+                  className={`flex text-white ${
+                    selectedPokemon === idPokemon ? 'ml-1 px-2 py-1 w-36' : 'w-0 opacity-10 '
+                  } h-full bg-slate-700 rounded transition-all duration-500 ease-out text-ellipsis overflow-scroll`}
+                >
+                  {dataPokedex && selectedPokemon === idPokemon ? (
+                    <div className="opacity-100 transition duration-100 delay-500 ease-in">
+                      {dataPokedex.flavor_text_entries.filter((desc) => desc.language.name === 'en').pop()?.flavor_text}
+                    </div>
+                  ) : (
+                    <div className="opacity-0 transition duration-100 delay-500 ease-in"></div>
+                  )}
+                </div>
+              </div>
+            )
+          })}
+      </div>
     </div>
   ) : (
     <></>
