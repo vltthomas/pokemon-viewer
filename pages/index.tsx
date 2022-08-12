@@ -16,7 +16,7 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <header className="px-4 py-2.5 bg-slate-800 flex justify-between">
+      <header className="px-4 py-2.5 bg-slate-800 flex justify-between flex-wrap">
         <div className="flex items-center">
           <Image src="/pokeball.svg" alt="pokeball image" width="75" height="75" />
           <span className="ml-4 text-xl font-semibold whitespace-nowrap text-white">POKEMON VIEWER</span>
