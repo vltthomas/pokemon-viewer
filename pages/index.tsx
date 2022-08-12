@@ -9,7 +9,7 @@ const Home: NextPage = () => {
   const { status, data, error } = useFetchGenerationsList()
   const [genNum, setGenNum] = useState(0)
   return (
-    <div className="bg-slate-700 min-h-screen">
+    <div className="flex flex-col bg-slate-700 min-h-screen">
       <Head>
         <title>Pokemon viewer</title>
         <meta name="description" content="Pokemon viewer using PokéAPI" />
@@ -18,7 +18,9 @@ const Home: NextPage = () => {
 
       <header className="px-4 py-2.5 bg-slate-800 flex justify-between flex-wrap">
         <div className="flex items-center">
-          <Image src="/pokeball.svg" alt="pokeball image" width="75" height="75" />
+          <a href="">
+            <Image src="/pokeball.svg" alt="pokeball image" width="75" height="75" />
+          </a>
           <span className="ml-4 text-xl font-semibold whitespace-nowrap text-white">POKEMON VIEWER</span>
         </div>
         <div className="flex flex-wrap items-center text-white">
@@ -46,7 +48,20 @@ const Home: NextPage = () => {
           )}
         </div>
       </header>
-      <main>{genNum != 0 ? <PokemonList generation={genNum} /> : <></>}</main>
+      <main className={`${genNum === 0 ? 'm-auto' : ''}`}>
+        {genNum != 0 ? (
+          <PokemonList generation={genNum} />
+        ) : (
+          <div className="h-full text-white text-5xl text-center antialiased text-slate-200">
+            Select a generation <br />
+            to start browsing{' '}
+            <span className="underline decoration-4 text-amber-400 decoration-blue-500 underline-offset-8 font-semibold tracking-wider leading-loose">
+              Pokémon
+            </span>{' '}
+            !
+          </div>
+        )}
+      </main>
     </div>
   )
 }

@@ -34,7 +34,7 @@ function PokemonList(props: PokemonListProps) {
         type="text"
         value={filter}
         onChange={(e) => setFilter(e.target.value)}
-        placeholder="Filter POKEMON by name"
+        placeholder="Search Pokémon by name"
         className="block mx-auto mt-5 mb-1 p-2 pl-5 bg-slate-800 rounded md:w-96 w-56 text-white focus:outline-none"
       />
       <div className="flex flex-wrap justify-start">
