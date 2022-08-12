@@ -34,6 +34,10 @@ npm run dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to start using it.
 
+### What is the Dockerfile about ?
+
+The live demo application is built inside a Docker container and is accessible throught a NGINX reverse proxy configuration on a personnal server. More informations [here](https://hub.docker.com/r/jwilder/nginx-proxy).
+
 ## License
 
 Licensed under the MIT license.
