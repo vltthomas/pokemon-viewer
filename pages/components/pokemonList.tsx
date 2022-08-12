@@ -12,16 +12,16 @@ function PokemonList(props: PokemonListProps) {
   const [filter, setFilter] = useState('')
 
   const { status, data, error } = useFetchPokemonFromGeneration(props.generation)
-  const { status: statusPokedex, data: dataPokedex, error: errorPokedex } = useFetchPokedexInfo(selectedPokemon, enableQueryPokedex)
+  const { status: statusPokedex, data: dataPokedex, error: errorPokedex } = useFetchPokedexInfo(selectedPokemon)
 
+  /**
+   * When a Pokemon card is clicked, set this Pokemon as selected.
+   * If the Pokemon card clicked is already the selected one, reset selection to nothing.
+   *
+   * @param index Index of the selected Pokemon
+   */
   function handleClickOnPokemon(index: number) {
-    if (index == selectedPokemon) {
-      setSelectedPokemon(0)
-      setEnableQueryPokedex(false)
-    } else {
-      setSelectedPokemon(index)
-      setEnableQueryPokedex(true)
-    }
+    index == selectedPokemon ? setSelectedPokemon(0) : setSelectedPokemon(index)
   }
 
   return status === 'loading' ? (
