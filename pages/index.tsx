@@ -21,8 +21,8 @@ const Home: NextPage = () => {
           <Image src="/pokeball.svg" alt="pokeball image" width="75" height="75" />
           <span className="ml-4 text-xl font-semibold whitespace-nowrap text-white">POKEMON VIEWER</span>
         </div>
-        <div className="flex items-center text-white">
-          <span>Generation :</span>
+        <div className="flex flex-wrap items-center text-white">
+          <div>Generation:</div>
           {status === 'loading' ? (
             <span>Loading...</span>
           ) : status === 'error' && error instanceof Error ? (
