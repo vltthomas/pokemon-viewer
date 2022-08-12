@@ -34,7 +34,7 @@ function PokemonList(props: PokemonListProps) {
         type="text"
         value={filter}
         onChange={(e) => setFilter(e.target.value)}
-        placeholder="Filter POKEMONS by name"
+        placeholder="Filter POKEMON by name"
         className="block mx-auto mt-5 mb-1 p-2 pl-5 bg-slate-800 rounded w-96 text-white focus:outline-none"
       />
       <div className="flex flex-wrap justify-start">
@@ -52,7 +52,7 @@ function PokemonList(props: PokemonListProps) {
                 key={idPokemon}
                 onClick={() => handleClickOnPokemon(idPokemon)}
                 className={`flex ${
-                  idPokemon === selectedPokemon ? 'bg-slate-500' : 'bg-slate-600 hover:bg-slate-500'
+                  idPokemon === selectedPokemon ? 'bg-slate-500' : ' bg-slate-600 hover:bg-slate-500'
                 } transition transition-width ease-out duration-300 m-4 p-2 rounded h-52`}
               >
                 <div className="flex flex-col justify-between">
@@ -67,12 +67,12 @@ function PokemonList(props: PokemonListProps) {
                   />
                 </div>
                 <div
-                  className={`flex text-white ${
-                    selectedPokemon === idPokemon ? 'ml-1 px-2 py-1 w-36' : 'w-0 opacity-10 '
-                  } h-full bg-slate-700 rounded transition-all duration-500 ease-out text-ellipsis overflow-scroll`}
+                  className={`flex font-sans text-white text-sm ${
+                    selectedPokemon === idPokemon ? 'ml-1 w-48' : 'w-0 opacity-10 '
+                  } h-full bg-slate-700 rounded transition-all duration-500 ease-out overflow-hidden`}
                 >
                   {dataPokedex && selectedPokemon === idPokemon ? (
-                    <div className="opacity-100 transition duration-100 delay-500 ease-in">
+                    <div className="opacity-100 px-2 py-1 transition duration-100 delay-500 ease-in overflow-y-auto">
                       {dataPokedex.flavor_text_entries.filter((desc) => desc.language.name === 'en').pop()?.flavor_text}
                     </div>
                   ) : (
