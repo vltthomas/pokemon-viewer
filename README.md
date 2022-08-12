@@ -33,3 +33,7 @@ npm run dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to start using it.
+
+## License
+
+Licensed under the MIT license.
